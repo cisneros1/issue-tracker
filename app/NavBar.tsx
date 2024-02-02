@@ -1,10 +1,9 @@
 "use client";
 
+import classnames from "classnames";
 import Link from "next/link";
-import React from "react";
-import { AiFillBug } from "react-icons/ai";
 import { usePathname } from "next/navigation";
-import classnames from 'classnames'
+import { AiFillBug } from "react-icons/ai";
 
 const NavBar = () => {
   // Dependent on browser api therefore we need client api ('use client')
@@ -25,9 +24,9 @@ const NavBar = () => {
           <Link
             key={link.href}
             className={classnames({
-              'text-zinc-950': link.href === currentPath,
-              'text-zinc-500': link.href !== currentPath,
-              'hover:text-zinc-800 transition-colors': true
+              "text-zinc-950": link.href === currentPath,
+              "text-zinc-500": link.href !== currentPath,
+              "hover:text-zinc-800 transition-colors": true,
             })}
             href={link.href}
           >
