@@ -8,7 +8,7 @@ const loading = () => {
   const issues = [1, 2, 3, 4, 5];
 
   return (
-    <div className="mb-5">
+    <div>
       <IssueActions />
       <Table.Root variant="surface">
         <Table.Header>
