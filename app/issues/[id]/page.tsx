@@ -15,6 +15,7 @@ interface Props {
 const IssueDetailPage = async ({ params }: Props) => {
     const session = await getServerSession(authOptions);
 
+
     const issue = await prisma.issue.findUnique({
         where: { id: parseInt(params.id) },
     });
