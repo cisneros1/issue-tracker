@@ -4,11 +4,14 @@ import { notFound } from "next/navigation";
 import dynamic from "next/dynamic";
 import IssueFormSkeleton from "./loading";
 
+
+// We disable ssr so that we can see the loading skeleton
 const IssueForm = dynamic(() => import("@/app/issues/_components/IssueForm"), {
   ssr: false,
   loading: () => <IssueFormSkeleton />,
 });
 
+// interface for capturing route params
 interface Props {
   params: { id: string };
 }

@@ -1,3 +1,6 @@
+// All this code does is ensure we only have one instance of prisma running
+
+
 import { PrismaClient } from '@prisma/client'
 
 const prismaClientSingleton = () => {
