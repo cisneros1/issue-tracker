@@ -27,8 +27,8 @@ const IssueChart = ({open, inProgress, closed} : Props) => {
                     {/*Following Code has no issues*/}
                     <Bar dataKey={"value"}  barSize={"60"} style={{fill: 'var(--accent-9'}}/>
                 </BarChart>
-                </ResponsiveContainer>
-            
+            </ResponsiveContainer>
+
         </Card>
     );
 };
