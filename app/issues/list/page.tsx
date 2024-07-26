@@ -1,12 +1,13 @@
-import Pagination from '@/app/components/Pagination';
-import prisma from '@/prisma/client';
-import { Status } from '@prisma/client';
-import IssueActions from './IssueActions';
-import IssueTable, { IssueQuery, columnNames } from './IssueTable';
-import { Flex } from '@radix-ui/themes';
+import Pagination from "@/app/components/Pagination";
+import prisma from "@/prisma/client";
+import { Status } from "@prisma/client";
+import IssueActions from "./IssueActions";
+import IssueTable, { IssueQuery, columnNames } from "./IssueTable";
+import { Flex } from "@radix-ui/themes";
+import { Metadata } from "next/types";
 
 interface Props {
-  searchParams: IssueQuery
+  searchParams: IssueQuery;
 }
 
 const IssuesPage = async ({ searchParams }: Props) => {
@@ -16,9 +17,8 @@ const IssuesPage = async ({ searchParams }: Props) => {
     : undefined;
   const where = { status };
 
-  const orderBy = columnNames
-    .includes(searchParams.orderBy)
-    ? { [searchParams.orderBy]: 'asc' }
+  const orderBy = columnNames.includes(searchParams.orderBy)
+    ? { [searchParams.orderBy]: "asc" }
     : undefined;
 
   const page = parseInt(searchParams.page) || 1;
@@ -46,6 +46,11 @@ const IssuesPage = async ({ searchParams }: Props) => {
   );
 };
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Issues list",
+  description: "View a list of issues and their statuses",
+};
 
 export default IssuesPage;
