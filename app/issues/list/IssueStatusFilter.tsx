@@ -31,11 +31,14 @@ const IssueStatusFilter = () => {
     >
       <Select.Trigger placeholder="Filter By" />
       <Select.Content asChild={true}>
-        {statuses.map((status) => (
-          <Select.Item key={status.value} value={status.value || ""}>
-            {status.label}
-          </Select.Item>
-        ))}
+        {statuses.map((status, index) => {
+          console.log(status.label); // Add this line to log the status
+          return (
+            <Select.Item key={index} value={status.value || ""}>
+              {status.label}
+            </Select.Item>
+          );
+        })}
       </Select.Content>
     </Select.Root>
   );
