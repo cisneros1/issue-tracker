@@ -1,5 +1,5 @@
 import prisma from "@/prisma/client";
-import { NextRequest, NextResponse } from "next/server";
+import {NextRequest, NextResponse} from "next/server";
 
 // Param prevents caching
 export async function GET(request: NextRequest) {

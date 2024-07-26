@@ -1,4 +1,4 @@
-import { Button, Flex } from '@radix-ui/themes';
+import {Button, Flex} from '@radix-ui/themes';
 import Link from 'next/link';
 import React from 'react';
 import IssueStatusFilter from './IssueStatusFilter';

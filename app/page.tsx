@@ -1,10 +1,9 @@
-import Pagination from "./components/Pagination";
-import LatestIssues from "./LatestIssues";
+import IssueChart from "@/app/IssueChart";
 import IssueSummary from "@/app/IssueSummary";
 import prisma from "@/prisma/client";
-import IssueChart from "@/app/IssueChart";
-import { Flex, Grid } from "@radix-ui/themes";
-import { Metadata } from "next";
+import {Flex, Grid} from "@radix-ui/themes";
+import {Metadata} from "next";
+import LatestIssues from "./LatestIssues";
 
 export default async function Home({
   searchParams,

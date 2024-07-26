@@ -1,20 +1,13 @@
 "use client";
 
-import { Skeleton } from "@/app/components";
+import {Skeleton} from "@/app/components";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import {usePathname} from "next/navigation";
 import React from "react";
-import { AiFillBug } from "react-icons/ai";
+import {AiFillBug} from "react-icons/ai";
 import classnames from "classnames";
-import { useSession } from "next-auth/react";
-import {
-    Avatar,
-    Box,
-    Container,
-    DropdownMenu,
-    Flex,
-    Text,
-} from "@radix-ui/themes";
+import {useSession} from "next-auth/react";
+import {Avatar, Box, Container, DropdownMenu, Flex, Text,} from "@radix-ui/themes";
 
 const NavBar = () => {
     return (
