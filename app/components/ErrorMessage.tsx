@@ -1,14 +1,12 @@
-import {Text} from "@radix-ui/themes";
 import React, {PropsWithChildren} from "react";
 
 const ErrorMessage = ({ children }: PropsWithChildren) => {
-  console.log("Error Message: " + children);
   if (!children) return null;
 
   return (
-    <Text color="red" as="p">
+    <p className="text-sm text-destructive">
       {children}
-    </Text>
+    </p>
   );
 };
 

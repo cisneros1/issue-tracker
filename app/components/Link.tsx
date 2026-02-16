@@ -1,20 +1,21 @@
 /**
- * Link component that wraps NextLink and Radix Link
- * Prevents full page reload from Radix Link and have client side navigation from NextLink
+ * Styled Link that combines Next.js Link with a consistent underline style.
  */
 
 import NextLink from "next/link";
-import {Link as RadixLink} from "@radix-ui/themes";
 
 interface Props {
   href: string;
-  children: string;
+  children: React.ReactNode;
 }
 
 const Link = ({ href, children }: Props) => {
   return (
-    <NextLink href={href} passHref legacyBehavior>
-      <RadixLink>{children}</RadixLink>
+    <NextLink
+      href={href}
+      className="text-primary hover:underline underline-offset-4"
+    >
+      {children}
     </NextLink>
   );
 };

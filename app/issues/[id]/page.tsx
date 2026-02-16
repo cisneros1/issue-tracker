@@ -1,16 +1,15 @@
 import prisma from "@/prisma/client";
-import {Box, Flex, Grid} from "@radix-ui/themes";
 import {notFound} from "next/navigation";
 import EditIssueButton from "./EditIssueButton";
 import IssueDetails from "./IssueDetails";
 import DeleteIssueButton from "./DeleteIssueButton";
-import {getServerSession} from "next-auth";
-import authOptions from "@/app/auth/authOptions";
+import {auth} from "@/lib/auth";
+import {headers} from "next/headers";
 import AssigneeSelect from "./AssigneeSelect";
 import {cache} from "react";
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 const fetchUser = cache((issueId: number) => {
@@ -20,31 +19,35 @@ const fetchUser = cache((issueId: number) => {
 });
 
 const IssueDetailPage = async ({ params }: Props) => {
-  const session = await getServerSession(authOptions);
-  const issue = await fetchUser(parseInt(params.id));
+  const { id } = await params;
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+  const issue = await fetchUser(parseInt(id));
 
   if (!issue) notFound();
 
   return (
-    <Grid columns={{ initial: "1", sm: "5" }} gap="5">
-      <Box className="md:col-span-4">
+    <div className="grid grid-cols-1 sm:grid-cols-5 gap-5">
+      <div className="md:col-span-4">
         <IssueDetails issue={issue} />
-      </Box>
+      </div>
       {session && (
-        <Box>
-          <Flex direction="column" gap="4">
+        <div>
+          <div className="flex flex-col gap-4">
             <AssigneeSelect issue={issue} />
             <EditIssueButton issueId={issue.id} />
             <DeleteIssueButton issueId={issue.id} />
-          </Flex>
-        </Box>
+          </div>
+        </div>
       )}
-    </Grid>
+    </div>
   );
 };
 
 export async function generateMetadata({ params }: Props) {
-  const issue = await fetchUser(parseInt(params.id));
+  const { id } = await params;
+  const issue = await fetchUser(parseInt(id));
 
   return {
     title: issue?.title,

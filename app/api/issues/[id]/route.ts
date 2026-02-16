@@ -1,13 +1,17 @@
-import {patchIssueSchema} from "@/app/validationSchemas";
+import {patchIssueSchema} from "@/lib/validations";
 import prisma from "@/prisma/client";
 import {NextRequest, NextResponse} from "next/server";
-import {getServerSession} from "next-auth";
-import authOptions from "@/app/auth/authOptions";
+import {z} from "zod";
+import {auth} from "@/lib/auth";
+import {headers} from "next/headers";
 
 export async function PATCH(
     request: NextRequest,
-    {params}: { params: { id: string } }) {
-    const session = await getServerSession(authOptions)
+    { params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
 
     if (!session)
         return NextResponse.json({error: 'Unauthorized'}, {status: 401});
@@ -15,12 +19,12 @@ export async function PATCH(
     const body = await request.json();
     const validation = patchIssueSchema.safeParse(body);
     if (!validation.success)
-        return NextResponse.json(validation.error.format(), {status: 400});
+        return NextResponse.json(z.treeifyError(validation.error), {status: 400});
 
     const {assignedToUserId, title, description} = body
 
     if (assignedToUserId) {
-        const user = prisma.user.findUnique({
+        const user = await prisma.user.findUnique({
             where: {id: assignedToUserId}
         });
 
@@ -29,7 +33,7 @@ export async function PATCH(
     }
 
     const issue = await prisma.issue.findUnique({
-        where: {id: parseInt(params.id)}
+        where: {id: parseInt(id)}
     });
     if (!issue)
         return NextResponse.json({error: 'Invalid issue'}, {status: 404});
@@ -48,14 +52,17 @@ export async function PATCH(
 
 export async function DELETE(
     request: NextRequest,
-    {params}: { params: { id: string } }) {
-    const session = await getServerSession(authOptions)
+    { params }: { params: Promise<{ id: string }> }) {
+    const { id } = await params;
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
 
     if (!session)
         return NextResponse.json({error: 'Unauthorized'}, {status: 401});
 
     const issue = await prisma.issue.findUnique({
-        where: {id: parseInt(params.id)}
+        where: {id: parseInt(id)}
     });
 
     if (!issue)

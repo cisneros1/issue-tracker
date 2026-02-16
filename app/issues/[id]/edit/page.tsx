@@ -1,24 +1,17 @@
 import React from "react";
 import prisma from "@/prisma/client";
 import {notFound} from "next/navigation";
-import dynamic from "next/dynamic";
-import IssueFormSkeleton from "./loading";
-
-
-// We disable ssr so that we can see the loading skeleton
-const IssueForm = dynamic(() => import("@/app/issues/_components/IssueForm"), {
-  ssr: false,
-  loading: () => <IssueFormSkeleton />,
-});
+import IssueForm from "@/app/issues/_components/IssueForm";
 
 // interface for capturing route params
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 const EditIssuePage = async ({ params }: Props) => {
+  const { id } = await params;
   const issue = await prisma.issue.findUnique({
-    where: { id: parseInt(params.id) },
+    where: { id: parseInt(id) },
   });
 
   if (!issue) notFound();

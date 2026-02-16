@@ -2,10 +2,12 @@
 
 import ErrorMessage from "@/app/components/ErrorMessage";
 import Spinner from "@/app/components/Spinner";
-import {issueSchema} from "@/app/validationSchemas";
+import {issueSchema} from "@/lib/validations";
 import {zodResolver} from "@hookform/resolvers/zod";
-import {Issue} from "@prisma/client";
-import {Button, Callout, TextField} from "@radix-ui/themes";
+import { Issue } from "@/prisma/client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import axios from "axios";
 import "easymde/dist/easymde.min.css";
 import {useRouter} from "next/navigation";
@@ -15,12 +17,6 @@ import SimpleMDE from "react-simplemde-editor";
 import {z} from "zod";
 
 type IssueFormData = z.infer<typeof issueSchema>;
-
-// Don't need this if we have z.infer
-// interface IssueForm {
-//   title: string;
-//   description: string;
-// }
 
 interface Props {
   issue?: Issue;
@@ -44,7 +40,6 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
       setSubmitting(true);
       if (issue) await axios.patch("/api/issues/" + issue.id, data);
       else await axios.post("/api/issues", data);
-      // console.log("Push api was called");
       router.push("/issues/list");
       router.refresh();
     } catch (error) {
@@ -57,20 +52,17 @@ const IssueForm = ({ issue }: { issue?: Issue }) => {
   return (
     <div className="max-w-xl">
       {error && (
-        <Callout.Root color="red" className="mb-5">
-          <Callout.Text>{error}</Callout.Text>
-        </Callout.Root>
+        <Alert variant="destructive" className="mb-5">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
       )}
       <form className="space-y-3" onSubmit={onSubmit}>
-        <TextField.Root>
-          <TextField.Input
-            defaultValue={issue?.title}
-            placeholder="Title"
-            {...register("title")}
-          />
-        </TextField.Root>
+        <Input
+          defaultValue={issue?.title}
+          placeholder="Title"
+          {...register("title")}
+        />
         <ErrorMessage>{errors.title?.message}</ErrorMessage>
-        {/*  */}
         <Controller
           name="description"
           control={control}

@@ -1,7 +1,12 @@
 "use client";
 
-import {ChevronLeftIcon, ChevronRightIcon, DoubleArrowLeftIcon, DoubleArrowRightIcon,} from "@radix-ui/react-icons";
-import {Button, Flex, Text} from "@radix-ui/themes";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {useRouter, useSearchParams} from "next/navigation";
 import React from "react";
 
@@ -25,43 +30,43 @@ const Pagination = ({ itemCount, pageSize, currentPage }: Props) => {
   };
 
   return (
-    <Flex align="center" gap="2">
-      <Text size="2">
+    <div className="flex items-center gap-2">
+      <p className="text-sm">
         Page {currentPage} of {pageCount}
-      </Text>
+      </p>
       <Button
-        color="gray"
-        variant="soft"
+        variant="secondary"
+        size="icon"
         disabled={currentPage === 1}
         onClick={() => changePage(1)}
       >
-        <DoubleArrowLeftIcon />
+        <ChevronsLeft className="h-4 w-4" />
       </Button>
       <Button
-        color="gray"
-        variant="soft"
+        variant="secondary"
+        size="icon"
         disabled={currentPage === 1}
         onClick={() => changePage(currentPage - 1)}
       >
-        <ChevronLeftIcon />
+        <ChevronLeft className="h-4 w-4" />
       </Button>
       <Button
-        color="gray"
-        variant="soft"
+        variant="secondary"
+        size="icon"
         disabled={currentPage === pageCount}
         onClick={() => changePage(currentPage + 1)}
       >
-        <ChevronRightIcon />
+        <ChevronRight className="h-4 w-4" />
       </Button>
       <Button
-        color="gray"
-        variant="soft"
+        variant="secondary"
+        size="icon"
         disabled={currentPage === pageCount}
         onClick={() => changePage(pageCount)}
       >
-        <DoubleArrowRightIcon />
+        <ChevronsRight className="h-4 w-4" />
       </Button>
-    </Flex>
+    </div>
   );
 };
 
